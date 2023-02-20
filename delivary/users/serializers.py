@@ -1,23 +1,66 @@
-from django.contrib.auth.hashers import (make_password)
 from rest_framework import serializers
-from users.models import Admin
+
+from users.constant import EXCLUDEFROMUSERMODEL
+from users.models import (Admin, CallCenter, Customer, Delivery, Manager,
+                          Trader, User)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'email', 'role', 'phone']
 
 
 class AdminSerializer(serializers.ModelSerializer):
-    # password = serializers.CharField(write_only=True, required=True)
+    password = serializers.CharField(write_only=True, required=True)
+    created_by = serializers.StringRelatedField()
 
     class Meta:
         model = Admin
-        exclude = ['last_login', 'is_superuser', 'is_staff',
-                   'groups', 'user_permissions',
-                   'date_joined', 'first_name', 'last_name']
+        exclude = EXCLUDEFROMUSERMODEL
 
-    # def validate(self, attrs):
-    #     if attrs.get('password'):
-      
-    #         if attrs.get('password_confirm') and \
-    #             attrs['password'] != attrs['password_confirm']:
-    #             raise serializers.ValidationError(
-    #                 {"password": "Password fields didn't match."})
 
-    #     return attrs
+class ManagerSerializer(serializers.ModelSerializer):
+    # password = serializers.CharField(write_only=True, required=True)
+    created_by = serializers.StringRelatedField()
+
+    class Meta:
+        model = Manager
+        exclude = EXCLUDEFROMUSERMODEL
+
+
+class CallCenterSerializer(serializers.ModelSerializer):
+    # password = serializers.CharField(write_only=True, required=True)
+    created_by = serializers.StringRelatedField()
+
+    class Meta:
+        model = CallCenter
+        exclude = EXCLUDEFROMUSERMODEL
+
+
+class DeliverySerializer(serializers.ModelSerializer):
+    # password = serializers.CharField(write_only=True, required=True)
+    created_by = serializers.StringRelatedField()
+
+    class Meta:
+        model = Delivery
+        exclude = EXCLUDEFROMUSERMODEL
+        depth = 1
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    # password = serializers.CharField(write_only=True, required=True)
+    created_by = serializers.StringRelatedField()
+
+    class Meta:
+        model = Customer
+        exclude = EXCLUDEFROMUSERMODEL
+
+
+class TraderSerializer(serializers.ModelSerializer):
+    # password = serializers.CharField(write_only=True, required=True)
+    created_by = serializers.StringRelatedField()
+
+    class Meta:
+        model = Trader
+        exclude = EXCLUDEFROMUSERMODEL
