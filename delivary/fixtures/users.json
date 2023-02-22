@@ -1,0 +1,24 @@
+[
+{
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$t1izyqiy4souqyII6gbCH2$U6zYN2reOep7tDR4TxaYy69cBIPDzyXvOBL7OgFuH/E=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "admin",
+        "first_name": "admin",
+        "last_name": "admin",
+        "email": "hosamameen948@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-02-22T19:07:56.591Z",
+        "deleted_at": null,
+        "phone": "",
+        "role": "admin",
+        "created_by": null,
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]
