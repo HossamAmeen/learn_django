@@ -20,5 +20,70 @@
         "groups": [],
         "user_permissions": []
     }
+},
+{
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$EOBi3fgeGioaWbwka6qAP6$LPhl0iBJGrC1gCrGU6iUyHoCxN0XTr2NscZTdLv0N6g=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "01010079795",
+        "first_name": "hossam delivery",
+        "last_name": "",
+        "email": "hossam@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-02-22T20:27:13.704Z",
+        "deleted_at": null,
+        "phone": "01010079795",
+        "role": "delivery",
+        "created_by": 1,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$vESVgju34BZMPg6hcFysj9$yvcD2ozCzBSnY0mnp5aQhwI7F4Frp0slfxzYhQ8te/o=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "hossam_ameen_customer1",
+        "first_name": "",
+        "last_name": "",
+        "email": "hossam@gmail123.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2023-02-22T21:42:45.118Z",
+        "deleted_at": null,
+        "phone": "01012432386",
+        "role": "customer",
+        "created_by": 1,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.delivery",
+    "pk": 2,
+    "fields": {
+        "national_id": "203026996456",
+        "document_url": "http://google.com/docs",
+        "delivery_tool": "moto",
+        "vacation_day": "friday",
+        "company_percentage": 15,
+        "guarantee_value": 200,
+        "shift_start": "15:00:00",
+        "shift_end": "22:00:00"
+    }
+},
+{
+    "model": "users.customer",
+    "pk": 3,
+    "fields": {
+        "note": "notets"
+    }
 }
 ]

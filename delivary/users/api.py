@@ -2,7 +2,6 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import AccessToken
-
 from users.models import Admin, CallCenter, Customer, Delivery, Manager, Trader
 from users.serializers import (AdminSerializer, CallCenterSerializer,
                                CustomerSerializer, DeliverySerializer,

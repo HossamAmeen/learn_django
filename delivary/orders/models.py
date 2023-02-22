@@ -1,7 +1,6 @@
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
 from softdelete.models import SoftDeleteObject
-
 from users.models import Customer, Delivery
 
 
@@ -20,7 +19,7 @@ class Order(TimeStampedModel, SoftDeleteObject):
                                  null=True)
     address_from = models.TextField()
     address_to = models.TextField()
-    order_code = models.CharField(unique=True, db_index=True, max_length=20)
+    code = models.CharField(unique=True, db_index=True, max_length=20)
     status = models.CharField(max_length=20, choices=OrderStatus.choices,
                               default=OrderStatus.NEW)
     city = models.CharField(max_length=20, null=True)

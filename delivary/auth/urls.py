@@ -1,7 +1,6 @@
+from auth.api import MyObtainTokenPairView, RegisterView, profileAPIView
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
-
-from auth.api import MyObtainTokenPairView, RegisterView, profileAPIView
 
 urlpatterns = [
     path('login/', MyObtainTokenPairView.as_view(), name='token_obtain_pair'),

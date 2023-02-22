@@ -1,5 +1,4 @@
 from rest_framework.routers import DefaultRouter
-
 from users.api import (AdminViewSet, CAllCenterViewSet, CustomerViewSet,
                        DeliveryViewSet, ManagerViewSet, TraderViewSet)
 

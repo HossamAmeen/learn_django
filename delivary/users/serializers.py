@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from users.constant import EXCLUDEFROMUSERMODEL
 from users.models import (Admin, CallCenter, Customer, Delivery, Manager,
                           Trader, User)
