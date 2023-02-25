@@ -2,6 +2,7 @@ from rest_framework import serializers
 from users.constant import EXCLUDEFROMUSERMODEL
 from users.models import (Admin, CallCenter, Customer, Delivery, Manager,
                           Trader, User)
+from django.contrib.auth.hashers import make_password
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -55,6 +56,13 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         exclude = EXCLUDEFROMUSERMODEL
 
+    def creates(self, validated_data):
+        validated_data['username'] = validated_data['phone']
+        validated_data['password'] = "admin_123"
+        validated_data['role'] = 'customer'
+        validated_data['password'] = make_password("admin")
+        super().create(validated_data)
+
 
 class TraderSerializer(serializers.ModelSerializer):
     # password = serializers.CharField(write_only=True, required=True)
@@ -63,3 +71,10 @@ class TraderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trader
         exclude = EXCLUDEFROMUSERMODEL
+
+    def creates(self, validated_data):
+        validated_data['username'] = validated_data['phone']
+        validated_data['password'] = "admin_123"
+        validated_data['role'] = 'trader'
+        validated_data['password'] = make_password("admin")
+        super().create(validated_data)
