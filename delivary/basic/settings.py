@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-z2w1^9cirxlg3ams$&g+*e7je$7pq@9eko^gbon)^wkrxsaie%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'delivery.elmadina.aboadam-used.com']
+ALLOWED_HOSTS = ['*', 'http://localhost:80', 'http://localhost:8080',
+                 'http://localhost:81', 'http://localhost:8081',
+                 'delivery.elmadina.aboadam-used.com']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     # for soft delete
     'softdelete',
     'rest_framework',
@@ -48,6 +51,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
