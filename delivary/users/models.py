@@ -11,7 +11,7 @@ class User(SoftDeleteObject, AbstractUser):
         on_delete=models.SET_NULL)
 
     def __str__(self):
-        return f"{self.role}: {self.first_name}"
+        return str({"role": self.role, "name": self.first_name})
 
     objects = UserManager()
 
@@ -35,13 +35,17 @@ class Delivery(User):
     vacation_day = models.CharField(max_length=12)
     company_percentage = models.IntegerField()
     guarantee_value = models.IntegerField(null=True)
+    level_badge = models.CharField(max_length=50, null=True)
+    custody_value = models.IntegerField(null=True)
     shift_start = models.TimeField()
     shift_end = models.TimeField()
 
 
-class Customer(User):
+class Client(User):
     note = models.TextField(null=True)
+    address = models.TextField()
+    address_2 = models.TextField(null=True)
 
 
-class Trader(Customer):
+class Trader(Client):
     pass

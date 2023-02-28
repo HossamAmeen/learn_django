@@ -2,9 +2,9 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import AccessToken
-from users.models import Admin, CallCenter, Customer, Delivery, Manager, Trader
+from users.models import Admin, CallCenter, Client, Delivery, Manager, Trader
 from users.serializers import (AdminSerializer, CallCenterSerializer,
-                               CustomerSerializer, DeliverySerializer,
+                               ClientSerializer, DeliverySerializer,
                                ManagerSerializer, TraderSerializer)
 
 
@@ -76,9 +76,9 @@ class DeliveryViewSet(ModelViewSet):
                 serializer.validated_data['password']))
 
 
-class CustomerViewSet(ModelViewSet):
-    serializer_class = CustomerSerializer
-    queryset = Customer.objects.all()
+class ClientViewSet(ModelViewSet):
+    serializer_class = ClientSerializer
+    queryset = Client.objects.all()
     permission_classes = []
     # permission_classes = (AllowAny,)
 

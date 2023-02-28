@@ -1,7 +1,7 @@
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
 from softdelete.models import SoftDeleteObject
-from users.models import Customer, Delivery, User
+from users.models import Client, Delivery, User
 
 
 class Order(TimeStampedModel, SoftDeleteObject):
@@ -14,7 +14,7 @@ class Order(TimeStampedModel, SoftDeleteObject):
         DELIVERED = "delivered"
         CANCELLED = "cancelled"
 
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     delivery = models.ForeignKey(Delivery, on_delete=models.SET_NULL,
                                  null=True)
     address_source = models.TextField()

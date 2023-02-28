@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 
 from rest_framework_simplejwt.tokens import AccessToken
-from users.serializers import CustomerSerializer, TraderSerializer
+from users.serializers import ClientSerializer, TraderSerializer
 
 
 def get_user_id_from_token(request):
@@ -22,16 +22,16 @@ def generate_order_code():
         str(random.randint(10000, 99999))
 
 
-def create_customer(request_data):
+def create_client(request_data):
 
     request_data['created_by'] = 1
     request_data['password'] = "admin_123"
-    request_data['role'] = 'customer'
+    request_data['role'] = 'client'
     request_data['username'] = request_data['phone']
-    customer_serializer = CustomerSerializer(data=request_data)
-    customer_serializer.is_valid(raise_exception=True)
-    customer_serializer.save()
-    return customer_serializer.data['id']
+    client_serializer = ClientSerializer(data=request_data)
+    client_serializer.is_valid(raise_exception=True)
+    client_serializer.save()
+    return client_serializer.data['id']
 
 
 def create_trader(request_data):
@@ -39,7 +39,7 @@ def create_trader(request_data):
     request_data['password'] = "admin_123"
     request_data['role'] = 'trader'
     request_data['username'] = request_data['phone']
-    customer_serializer = TraderSerializer(data=request_data)
-    customer_serializer.is_valid(raise_exception=True)
-    customer_serializer.save()
-    return customer_serializer.data['id']
+    client_serializer = TraderSerializer(data=request_data)
+    client_serializer.is_valid(raise_exception=True)
+    client_serializer.save()
+    return client_serializer.data['id']
