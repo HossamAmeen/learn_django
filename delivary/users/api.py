@@ -6,7 +6,7 @@ from users.models import Admin, CallCenter, Client, Delivery, Manager, Trader
 from users.serializers import (AdminSerializer, CallCenterSerializer,
                                ClientSerializer, DeliverySerializer,
                                ManagerSerializer, TraderSerializer)
-
+from django_filters.rest_framework import DjangoFilterBackend
 
 class AdminViewSet(ModelViewSet):
     serializer_class = AdminSerializer
@@ -81,6 +81,8 @@ class ClientViewSet(ModelViewSet):
     serializer_class = ClientSerializer
     queryset = Client.objects.all()
     permission_classes = []
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['phone']
     # permission_classes = (AllowAny,)
 
     def perform_create(self, serializer):
