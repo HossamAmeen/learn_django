@@ -12,26 +12,33 @@ class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all().order_by('-id')
     serializer_class = OrderSerializer
 
-    def get_serializer_class(self):
+    def get_serializer_class(self, **kwargs):
+        print(self.request.query_params.get('limit', False))
+        paginator = None
         if self.action == 'list':
             return ListOrderSerializer
         else:
             return OrderSerializer
 
     def create(self, request, *args, **kwargs):
-        request.data[''] = get_user_id_from_token(request)
+        request.data['created_by'] = get_user_id_from_token(request)
         request.data['code'] = generate_order_code()
         if request.data.get('client') is None:
             if request.data.get('is_trader'):
                 request.data['client'] = create_client(request.data)
             else:
                 request.data['client'] = create_trader(request.data)
-        request.data['created_by'] = 1
+        # request.data['created_by'] = 1
         serializer_data = self.serializer_class(data=request.data)
         serializer_data.is_valid(raise_exception=True)
         serializer_data.save()
 
         return Response(serializer_data.data, status=status.HTTP_200_OK)
+
+    def update(self, request, *args, **kwargs):
+        pass
+
+        
 
 
 class DeliveryOrderAPIView(APIView):

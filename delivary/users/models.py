@@ -3,17 +3,15 @@ from django.db import models
 from softdelete.models import SoftDeleteObject
 
 
-class User(SoftDeleteObject, AbstractUser):
+class User(AbstractUser):
     phone = models.CharField(max_length=12, unique=True)
     role = models.CharField(max_length=12)
     created_by = models.ForeignKey(
         'users.User', null=True,
         on_delete=models.SET_NULL)
 
-    def __str__(self):
-        return str({"role": self.role, "name": self.first_name})
-
     objects = UserManager()
+    # objects = SoftDeleteManager()
 
 
 class Admin(User):

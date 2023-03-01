@@ -24,10 +24,9 @@ class AdminViewSet(ModelViewSet):
             serializer.save(password=make_password(
                 serializer.validated_data['password']))
 
-
 class ManagerViewSet(ModelViewSet):
     serializer_class = ManagerSerializer
-    queryset = Manager.objects.all()
+    queryset = Manager.objects.filter()
     permission_classes = []
     # permission_classes = (AllowAny,)
 
@@ -37,12 +36,12 @@ class ManagerViewSet(ModelViewSet):
             created_by_id=1)
 
     def perform_update(self, serializer):
+        super().perform_update(serializer)
         if serializer.validated_data.get('password'):
             serializer.save(password=make_password(
                 serializer.validated_data['password']))
 
-
-class CAllCenterViewSet(ModelViewSet):
+class CallCenterViewSet(ModelViewSet):
     serializer_class = CallCenterSerializer
     queryset = CallCenter.objects.all()
     permission_classes = []
@@ -54,6 +53,7 @@ class CAllCenterViewSet(ModelViewSet):
             created_by_id=1)
 
     def perform_update(self, serializer):
+        super().perform_update(serializer)
         if serializer.validated_data.get('password'):
             serializer.save(password=make_password(
                 serializer.validated_data['password']))
@@ -71,6 +71,7 @@ class DeliveryViewSet(ModelViewSet):
             created_by_id=1)
 
     def perform_update(self, serializer):
+        super().perform_update(serializer)
         if serializer.validated_data.get('password'):
             serializer.save(password=make_password(
                 serializer.validated_data['password']))
@@ -88,10 +89,10 @@ class ClientViewSet(ModelViewSet):
             created_by_id=1)
 
     def perform_update(self, serializer):
+        super().perform_update(serializer)
         if serializer.validated_data.get('password'):
             serializer.save(password=make_password(
                 serializer.validated_data['password']))
-
 
 class TraderViewSet(ModelViewSet):
     serializer_class = TraderSerializer
@@ -105,6 +106,8 @@ class TraderViewSet(ModelViewSet):
             created_by_id=1)
 
     def perform_update(self, serializer):
+        super().perform_update(serializer)
         if serializer.validated_data.get('password'):
             serializer.save(password=make_password(
                 serializer.validated_data['password']))
+        
