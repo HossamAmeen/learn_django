@@ -11,8 +11,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class ListOrderSerializer(serializers.ModelSerializer):
-    delivery = UserSerializer()
-    client = UserSerializer()
+    delivery = DeliverySerializer()
+    client = ClientSerializer()
     created_by = UserSerializer()
 
     class Meta:

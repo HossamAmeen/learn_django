@@ -29,7 +29,7 @@ class CallCenter(User):
 
 
 class Delivery(User):
-    national_id = models.CharField(max_length=12, unique=True)
+    national_id = models.CharField(max_length=14, unique=True)
     document_url = models.URLField(null=True)
     delivery_tool = models.CharField(max_length=20, null=True)
     vacation_day = models.CharField(max_length=12)
