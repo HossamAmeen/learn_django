@@ -14,8 +14,8 @@ class OrderViewSet(ModelViewSet):
 
     def get_serializer_class(self, **kwargs):
         print(self.request.query_params.get('limit', False))
-        paginator = None
-        if self.action == 'list':
+        # paginator = None
+        if self.action in ['list', 'retrieve']:
             return ListOrderSerializer
         else:
             return OrderSerializer
@@ -35,16 +35,18 @@ class OrderViewSet(ModelViewSet):
 
         return Response(serializer_data.data, status=status.HTTP_200_OK)
 
-    def update(self, request, *args, **kwargs):
+    def updates(self, request, *args, **kwargs):
         pass
 
         
 
 
-class DeliveryOrderAPIView(APIView, LimitOffsetPagination):
+class DeliveryOrderViewSet(ModelViewSet):
+    queryset = Order.objects.all().order_by('-id')
+    serializer_class = OrderSerializer
 
-    def get(self, request, *args, **kwargs):
-        orders = Order.objects.filter()
-        serializer_data = OrderSerializer(data=orders, many=True)
-        serializer_data.is_valid()
-        return Response(serializer_data.data, status=status.HTTP_200_OK)
+    def get_serializer_class(self, **kwargs):
+        print(self.request.query_params.get('limit', False))
+        # paginator = None
+        if self.action in ['list', 'retrieve']:
+            return ListOrderSerializer
