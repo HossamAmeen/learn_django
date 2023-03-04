@@ -1,8 +1,9 @@
-from rest_framework import serializers
-from users.constant import EXCLUDEFROMUSERMODEL
-from users.models import (Admin, CallCenter, Client, Delivery, Manager,
-                          Trader, User)
 from django.contrib.auth.hashers import make_password
+from rest_framework import serializers
+
+from users.constant import EXCLUDEFROMUSERMODEL
+from users.models import (Admin, CallCenter, Client, Delivery, Manager, Trader,
+                          User, Vacation)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -86,3 +87,18 @@ class TraderSerializer(serializers.ModelSerializer):
         validated_data['role'] = 'trader'
         validated_data['password'] = make_password("admin")
         super().create(validated_data)
+
+
+class ListVacationSerializer(serializers.ModelSerializer):
+    delivery = UserSerializer()
+    created_by = UserSerializer()
+
+    class Meta:
+        model = Vacation
+        fields = "__all__"
+
+
+class VacationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vacation
+        fields = "__all__"

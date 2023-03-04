@@ -1,6 +1,8 @@
-from users.serializers import ClientSerializer, DeliverySerializer, UserSerializer
-from orders.models import Order
 from rest_framework import serializers
+
+from orders.models import Order
+from users.serializers import (ClientSerializer, DeliverySerializer,
+                               UserSerializer)
 
 
 class OrderSerializer(serializers.ModelSerializer):

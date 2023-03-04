@@ -1,5 +1,4 @@
 # from django.contrib.auth.models import User
-from auth.serializers import MyTokenObtainPairSerializer, RegisterSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -7,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+from auth.serializers import MyTokenObtainPairSerializer, RegisterSerializer
 from users.models import Delivery, User
 from users.serializers import DeliverySerializer, UserSerializer
 

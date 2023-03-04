@@ -47,3 +47,20 @@ class Client(User):
 
 class Trader(Client):
     pass
+
+
+class Vacation(models.Model):
+    class StatusType(models.TextChoices):
+        PENDING = "pending"
+        ACCEPT = "accept"
+        CANCEL = "cancel"
+
+    delivery = models.ForeignKey(Delivery, related_name='vaction',
+                                 related_query_name="vacations",
+                                 on_delete=models.DO_NOTHING)
+    date = models.DateField()
+    reason = models.TextField(null=True)
+    note = models.TextField(null=True)
+    status = models.CharField(
+        choices=StatusType.choices, default=StatusType.PENDING, max_length=20)
+    created_by = models.ForeignKey(User, null=True, on_delete=models.DO_NOTHING)

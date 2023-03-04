@@ -1,12 +1,16 @@
 from django.contrib.auth.hashers import make_password
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import AccessToken
-from users.models import Admin, CallCenter, Client, Delivery, Manager, Trader
+
+from users.models import (Admin, CallCenter, Client, Delivery, Manager, Trader,
+                          Vacation)
 from users.serializers import (AdminSerializer, CallCenterSerializer,
-                               ClientSerializer, DeliverySerializer,
-                               ManagerSerializer, TraderSerializer)
-from django_filters.rest_framework import DjangoFilterBackend
+                               ClientSerializer, DeliverySerializer, ListVacationSerializer,
+                               ManagerSerializer, TraderSerializer,
+                               VacationSerializer)
+
 
 class AdminViewSet(ModelViewSet):
     serializer_class = AdminSerializer
@@ -96,6 +100,7 @@ class ClientViewSet(ModelViewSet):
             serializer.save(password=make_password(
                 serializer.validated_data['password']))
 
+
 class TraderViewSet(ModelViewSet):
     serializer_class = TraderSerializer
     queryset = Trader.objects.all()
@@ -112,4 +117,28 @@ class TraderViewSet(ModelViewSet):
         if serializer.validated_data.get('password'):
             serializer.save(password=make_password(
                 serializer.validated_data['password']))
-        
+
+
+class VacationViewSet(ModelViewSet):
+    queryset = Vacation.objects.all()
+    serializer_class = VacationSerializer
+    permission_classes = (IsAuthenticated,)
+    http_method_names = ['get', 'post', 'patch', 'put']
+
+    def get_serializer_class(self, *args, **kwargs):
+        if self.action in ['list', 'retrieve']:
+            return ListVacationSerializer
+        else:
+            return VacationSerializer
+
+    def get_queryset(self):
+        token = AccessToken(self.request.META.get("HTTP_AUTHORIZATION")
+                            .split(" ")[1])
+
+        if token['role'] == "delivery":
+            self.queryset = self.queryset.filter(delivery=token['user_id'])
+
+        return self.queryset.order_by('-id')
+
+    def perform_create(self, serializer):
+        serializer.save(created_by_id=1)
