@@ -1,8 +1,9 @@
 from rest_framework import status
-from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from basic.helpers import get_role_and_user_id
 
 from orders.helpers import (create_client, create_trader, generate_order_code,
                             get_user_id_from_token)
@@ -13,6 +14,10 @@ from orders.serializers import ListOrderSerializer, OrderSerializer
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all().order_by('-id')
     serializer_class = OrderSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['status', "client__phone", "delivery__phone",
+                        "client__id", "delivery__id"]
+    permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self, **kwargs):
         print(self.request.query_params.get('limit', False))
@@ -40,15 +45,22 @@ class OrderViewSet(ModelViewSet):
     def updates(self, request, *args, **kwargs):
         pass
 
-        
-
 
 class DeliveryOrderViewSet(ModelViewSet):
     queryset = Order.objects.all().order_by('-id')
     serializer_class = OrderSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['status', "client__phone", "delivery__phone",
+                        "client__id", "delivery__id"]
+    permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self, **kwargs):
-        print(self.request.query_params.get('limit', False))
+        # print(self.request.query_params.get('limit', False))
         # paginator = None
         if self.action in ['list', 'retrieve']:
             return ListOrderSerializer
+
+    def get_queryset(self):
+        _, user_id = get_role_and_user_id(self.request)
+        self.queryset = self.queryset.filter(delivery=user_id)
+        return self.queryset.order_by('-id')
