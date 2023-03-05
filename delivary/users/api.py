@@ -1,9 +1,11 @@
 from django.contrib.auth.hashers import make_password
+from rest_framework import status
+
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import AccessToken
-
+from rest_framework.response import Response
 from users.models import (Admin, CallCenter, Client, Delivery, Manager, Trader,
                           Vacation)
 from users.serializers import (AdminSerializer, CallCenterSerializer,
@@ -140,5 +142,14 @@ class VacationViewSet(ModelViewSet):
 
         return self.queryset.order_by('-id')
 
-    def perform_create(self, serializer):
-        serializer.save(created_by_id=1)
+    def create(self, request, *args, **kwargs):
+        token = AccessToken(self.request.META.get("HTTP_AUTHORIZATION")
+                            .split(" ")[1])
+        
+        if token['role'] == "delivery":
+            request.data['delivery'] = token['user_id']
+
+        request.data['created_by'] = token['user_id']
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
