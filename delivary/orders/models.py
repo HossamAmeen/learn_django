@@ -30,8 +30,8 @@ class Order(TimeStampedModel, SoftDeleteObject):
     item_counter = models.IntegerField(default=1)
     created_by = models.ForeignKey(User, null=True, related_name="by",
                                    on_delete=models.SET_NULL)
-
-
+    delivery_cost = models.DecimalField(null=True, max_digits=10, decimal_places=2)
+    client_saving = models.DecimalField(null=True, max_digits=10, decimal_places=2)
 class Comment(TimeStampedModel, SoftDeleteObject):
     comment = models.CharField(max_length=150)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
