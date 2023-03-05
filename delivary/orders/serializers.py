@@ -12,6 +12,12 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class UpdateOrderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Order
+        exclude = ["status"]
+
 class ListOrderSerializer(serializers.ModelSerializer):
     delivery = DeliverySerializer()
     client = ClientSerializer()

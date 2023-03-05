@@ -4,11 +4,10 @@ from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from basic.helpers import get_role_and_user_id
-
 from orders.helpers import (create_client, create_trader, generate_order_code,
                             get_user_id_from_token)
 from orders.models import Order
-from orders.serializers import ListOrderSerializer, OrderSerializer
+from orders.serializers import ListOrderSerializer, OrderSerializer, UpdateOrderSerializer
 
 
 class OrderViewSet(ModelViewSet):
@@ -24,6 +23,8 @@ class OrderViewSet(ModelViewSet):
         # paginator = None
         if self.action in ['list', 'retrieve']:
             return ListOrderSerializer
+        elif self.action in ['update', 'partial_update']:
+            return UpdateOrderSerializer
         else:
             return OrderSerializer
 
@@ -43,7 +44,7 @@ class OrderViewSet(ModelViewSet):
         return Response(serializer_data.data, status=status.HTTP_200_OK)
 
     def updates(self, request, *args, **kwargs):
-        pass
+        super().update(self, request, *args, **kwargs)
 
 
 class DeliveryOrderViewSet(ModelViewSet):
