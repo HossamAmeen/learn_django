@@ -17,7 +17,7 @@ class OrderViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['status', "client__phone", "delivery__phone",
                         "client__id", "delivery__id"]
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self, **kwargs):
         print(self.request.query_params.get('limit', False))
