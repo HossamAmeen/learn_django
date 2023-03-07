@@ -26,6 +26,7 @@ class AdminViewSet(ModelViewSet):
             created_by_id=1)
 
     def perform_update(self, serializer):
+        super().perform_update(serializer)
         if serializer.validated_data.get('password'):
             serializer.save(password=make_password(
                 serializer.validated_data['password']))
