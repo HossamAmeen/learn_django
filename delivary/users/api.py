@@ -139,18 +139,19 @@ class VacationViewSet(ModelViewSet):
                             .split(" ")[1])
 
         if token['role'] == "delivery":
-            self.queryset = self.queryset.filter(delivery=token['user_id'])
+            self.queryset = self.queryset.filter(created_by=token['user_id'])
 
         return self.queryset.order_by('-id')
 
     def create(self, request, *args, **kwargs):
         token = AccessToken(self.request.META.get("HTTP_AUTHORIZATION")
                             .split(" ")[1])
-        
+
         if token['role'] == "delivery":
             request.data['delivery'] = token['user_id']
 
         request.data['created_by'] = token['user_id']
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
