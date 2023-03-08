@@ -42,7 +42,7 @@ class Delivery(User):
 class Client(User):
     note = models.TextField(null=True)
     address = models.TextField()
-    address_2 = models.TextField(null=True)
+    address_2 = models.TextField(null=True, blank=True)
 
 
 class Trader(Client):
