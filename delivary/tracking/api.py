@@ -18,8 +18,9 @@ class TrackingViewSet(ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        # # we will move it to signal or save model
-        # order = Order.objects.filter(id=request.data['order']).first()
-        # order.status = request.data['status']
-        # order.save()
+        # we will move it to signal or save model
+        if request.data.get('status') == Order.OrderStatus.INPROGRESS:
+            order = Order.objects.filter(id=request.data['order']).first()
+            order.delivery_id = request.data['delivery']
+            order.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
