@@ -7,6 +7,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 from users.serializers import ClientSerializer, TraderSerializer
 
 
+
 def get_user_id_from_token(request):
     if request.META.get("HTTP_AUTHORIZATION"):
         token = AccessToken(request.META.get("HTTP_AUTHORIZATION")

@@ -12,7 +12,7 @@ from users.serializers import (AdminSerializer, CallCenterSerializer,
                                ClientSerializer, DeliverySerializer, ListVacationSerializer,
                                ManagerSerializer, TraderSerializer,
                                VacationSerializer)
-
+from rest_framework import filters
 
 class AdminViewSet(ModelViewSet):
     serializer_class = AdminSerializer
@@ -70,6 +70,8 @@ class DeliveryViewSet(ModelViewSet):
     serializer_class = DeliverySerializer
     queryset = Delivery.objects.all()
     permission_classes = []
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    search_fields = ['phone']
     # permission_classes = (AllowAny,)
 
     def perform_create(self, serializer):
@@ -88,8 +90,8 @@ class ClientViewSet(ModelViewSet):
     serializer_class = ClientSerializer
     queryset = Client.objects.all()
     permission_classes = []
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['phone']
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    search_fields = ['phone']
     # permission_classes = (AllowAny,)
 
     def perform_create(self, serializer):

@@ -4,21 +4,22 @@ from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from basic.helpers import get_role_and_user_id
+from orders.constanct import ORDER_FILTER, ORDER_SEARCH
 from tracking.models import OrderTracking
 from orders.helpers import (create_client, create_trader, generate_order_code,
                             get_user_id_from_token)
 from orders.models import Order
 from orders.serializers import ListOrderSerializer, OrderSerializer, UpdateOrderSerializer
-
+from rest_framework import filters
 
 class OrderViewSet(ModelViewSet):
     permission_classes = (IsAuthenticated,)
     queryset = Order.objects.all().order_by('-id')
     serializer_class = OrderSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['status', "client__phone", "delivery__phone",
-                        "client__id", "delivery__id"]
-    # permission_classes = (IsAuthenticated,)
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ORDER_FILTER
+    search_fields = ORDER_SEARCH
+    permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self, **kwargs):
         print(self.request.query_params.get('limit', False))
@@ -68,10 +69,10 @@ class OrderViewSet(ModelViewSet):
 class DeliveryOrderViewSet(ModelViewSet):
     queryset = Order.objects.all().order_by('-id')
     serializer_class = OrderSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['status', "client__phone", "delivery__phone",
-                        "client__id", "delivery__id"]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ORDER_FILTER
     permission_classes = (IsAuthenticated,)
+    search_fields = ORDER_SEARCH
 
     def get_serializer_class(self, **kwargs):
         # print(self.request.query_params.get('limit', False))
