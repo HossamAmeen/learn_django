@@ -9,7 +9,7 @@ from users.models import (Admin, CallCenter, Client, Delivery, Manager, Trader,
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['first_name', 'email', 'role', 'phone']
+        fields = ['id', 'first_name', 'email', 'role', 'phone']
 
 
 class ListAdminSerializer(serializers.ModelSerializer):
