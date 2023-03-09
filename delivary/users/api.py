@@ -127,6 +127,8 @@ class VacationViewSet(ModelViewSet):
     serializer_class = VacationSerializer
     permission_classes = (IsAuthenticated,)
     http_method_names = ['get', 'post', 'patch', 'put']
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['date', 'status', 'delivery', 'delivery__phone']
 
     def get_serializer_class(self, *args, **kwargs):
         if self.action in ['list', 'retrieve']:
