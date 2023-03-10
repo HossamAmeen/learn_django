@@ -92,6 +92,7 @@ class ClientViewSet(ModelViewSet):
     permission_classes = []
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['phone']
+    http_method_names = ['get', 'post', 'patch', 'put']
     # permission_classes = (AllowAny,)
 
     def perform_create(self, serializer):
@@ -110,6 +111,7 @@ class TraderViewSet(ModelViewSet):
     serializer_class = TraderSerializer
     queryset = Trader.objects.all()
     permission_classes = []
+    http_method_names = ['get', 'post', 'patch', 'put']
     # permission_classes = (AllowAny,)
 
     def perform_create(self, serializer):

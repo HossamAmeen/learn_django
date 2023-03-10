@@ -39,7 +39,7 @@ class OrderViewSet(ModelViewSet):
                 request.data['client'] = create_client(request.data)
             else:
                 request.data['client'] = create_trader(request.data)
-        request.data['created_by'] = 1
+        request.data['created_by'] = request.data['created_by']
         serializer_data = self.serializer_class(data=request.data)
         serializer_data.is_valid(raise_exception=True)
         serializer_data.save()
