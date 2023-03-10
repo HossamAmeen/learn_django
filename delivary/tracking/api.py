@@ -6,12 +6,15 @@ from rest_framework import status
 from orders.models import Order
 from tracking.serializers import OrderTrackSerializer
 from .models import OrderTracking
-
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 class TrackingViewSet(ModelViewSet):
     queryset= OrderTracking.objects.all().order_by("-id")
     serializer_class = OrderTrackSerializer
     permission_classes = (IsAuthenticated,)
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['order']
 
     def create(self, request, *args, **kwargs):
         _, request.data['created_by'] = get_role_and_user_id(request)
