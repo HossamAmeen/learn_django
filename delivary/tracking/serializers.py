@@ -11,6 +11,8 @@ class OrderTrackingSerializer(serializers.ModelSerializer):
 
 class ListOrderTrackingSerializer(serializers.ModelSerializer):
     created_by = UserSerializer()
+    delivery = UserSerializer()
+
     class Meta:
         model = OrderTracking
         fields = "__all__"
