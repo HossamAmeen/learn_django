@@ -88,7 +88,7 @@ class DeliveryViewSet(ModelViewSet):
 
 class ClientViewSet(ModelViewSet):
     serializer_class = ClientSerializer
-    queryset = Client.objects.all()
+    queryset = Client.objects.filter(role='client')
     permission_classes = []
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['phone']

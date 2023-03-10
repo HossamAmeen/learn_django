@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ListAdminSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
-
+    created_by = UserSerializer()
     class Meta:
         model = Admin
         exclude = EXCLUDEFROMUSERMODEL
