@@ -4,17 +4,22 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from orders.models import Order
-from tracking.serializers import OrderTrackSerializer
+from tracking.serializers import OrderTrackingSerializer, ListOrderTrackingSerializer
 from .models import OrderTracking
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 
 class TrackingViewSet(ModelViewSet):
     queryset= OrderTracking.objects.all().order_by("-id")
-    serializer_class = OrderTrackSerializer
+    serializer_class = OrderTrackingSerializer
     permission_classes = (IsAuthenticated,)
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['order']
+
+    def get_serializer_class(self):
+        if self.action in ['list', 'retrieve']:
+            return ListOrderTrackingSerializer
+        return OrderTrackingSerializer
 
     def create(self, request, *args, **kwargs):
         _, request.data['created_by'] = get_role_and_user_id(request)
@@ -22,7 +27,7 @@ class TrackingViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         # we will move it to signal or save model
-        if request.data.get('status') == Order.OrderStatus.INPROGRESS:
+        if request.data.get('status') == Order.OrderStatus.DELIVERYASSIGNED:
             order = Order.objects.filter(id=request.data['order']).first()
             order.delivery_id = request.data['delivery']
             order.save()
