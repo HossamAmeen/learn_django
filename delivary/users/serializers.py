@@ -7,9 +7,10 @@ from users.models import (Admin, CallCenter, Client, Delivery, Manager, Trader,
 
 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True)
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'email', 'role', 'phone']
+        fields = ['id', 'first_name', 'email', 'role', 'phone', 'password']
 
 
 class ListAdminSerializer(serializers.ModelSerializer):
@@ -18,7 +19,7 @@ class ListAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Admin
         exclude = EXCLUDEFROMUSERMODEL
-        depth = 1
+        # depth = 1
 
 
 class AdminSerializer(serializers.ModelSerializer):
