@@ -15,6 +15,11 @@ class Order(TimeStampedModel, SoftDeleteObject):
         DELIVERED = "delivered"
         CANCELLED = "cancelled"
 
+    class OrderType(models.TextChoices):
+        NORMAL = "normal"
+        IN_OFFICE = "in_office"
+        CITy = "city"
+
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     delivery = models.ForeignKey(Delivery, on_delete=models.SET_NULL,
                                  null=True)
@@ -32,6 +37,9 @@ class Order(TimeStampedModel, SoftDeleteObject):
                                    on_delete=models.SET_NULL)
     delivery_cost = models.DecimalField(null=True, max_digits=10, decimal_places=2)
     client_saving = models.DecimalField(null=True, max_digits=10, decimal_places=2)
+    type = models.CharField(choices=OrderType.choices, default=OrderType.NORMAL, max_length=20,
+                            null=True)
+    notes = models.TextField(null=True)
 class Comment(TimeStampedModel, SoftDeleteObject):
     comment = models.CharField(max_length=150)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
